@@ -2,7 +2,7 @@
 // @name         fishtank-s02 QoL
 // @description  Adds some quality of life features for Fishtank season 2 site
 // @namespace    http://tampermonkey.net/
-// @version      2023-12-21
+// @version      2023-12-22
 // @author       barrettotte
 // @match        *://*.fishtank.live/*
 // @run-at       document-idle
@@ -167,19 +167,10 @@ function addFishtankLiveHashtag() {
 }
 
 function main() {
-  try {
-    addCameraButtonPanel();
-    addFishtankLiveHashtag();
-  } catch(e) {
-    console.error('fishtank-s02.js failed - ' + e);
-  }
+  addCameraButtonPanel();
+  addFishtankLiveHashtag();
 }
 
-function waitForleftPanel(_, observer) {
-  if(document.querySelector(leftPanelClass)) {
-    observer.disconnect();
-    main();
-  }
-}
-
-(new MutationObserver(waitForleftPanel)).observe(document, {childList: true, subtree: true});
+waitForElm(leftPanelClass)
+  .then(() => main())
+  .catch((e) => console.error(`fishtank-s02-qol failed ${e}`));
