@@ -15,7 +15,7 @@ More awesome features can be found at https://github.com/maejok-xx/maejok-tools
 
 ## Install
 
-Install with TamperMonkey, GreaseMonkey, or similar userscript browser add-on
+Install with TamperMonkey, GreaseMonkey, or similar userscript browser add-on using `https://raw.githubusercontent.com/barrettotte/fishtank-s02-qol/master/fishtank-s02-qol.js`
 
 ## Note
 
