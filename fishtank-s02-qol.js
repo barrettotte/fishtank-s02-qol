@@ -200,7 +200,13 @@ function enableCollapsibility(headerSelector, bodySelectors) {
       bodySelectors.forEach((b) => {
         const body = document.querySelector(b);
         if (body != null) {
-          body.style.display = (body.style.display === 'none') ? 'inherit' : 'none';
+          if (body.style.display === 'none') {
+            body.style.display = '';
+            header.style.minHeight = '';
+          } else {
+            body.style.display = 'none';
+            header.style.minHeight = '25px';
+          }
         }
       });
     });
