@@ -7,7 +7,9 @@ Adds some quality of life features for [Fishtank season 2](https://www.fishtank.
 - List of all cameras on left panel
 - Button in left panel to open `#fishtanklive` on X in new tab
 
-<img src="images/cam-list.png" alt="camera list" width="33%" height="33%"/>
+## Screenshots
+
+<img src="images/cam-list.png" alt="camera list" width="125px" height="350px"/>
 
 ## Install
 
