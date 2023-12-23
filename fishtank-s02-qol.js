@@ -2,7 +2,7 @@
 // @name         fishtank-s02 QoL
 // @description  Adds some quality of life features for Fishtank season 2 site
 // @namespace    http://tampermonkey.net/
-// @version      2023-12-22
+// @version      2023-12-23
 // @author       barrettotte
 // @match        *://*.fishtank.live/*
 // @run-at       document-idle
@@ -29,11 +29,7 @@ function waitForElm(selector) {
         resolve(document.querySelector(selector));
       }
     });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
+    observer.observe(document.body, {childList: true, subtree: true});
   });
 }
 
@@ -66,10 +62,9 @@ function fishtankSound(sound) {
 }
 
 function switchCamera(camera) {
-  // close out of camera if currently watching
   const closeBtn = document.querySelector('.close-button_md__9Ad2o');
   if (closeBtn != null) {
-    closeBtn.click();
+    closeBtn.click(); // close out of camera if currently watching
   }
 
   setTimeout(() => {
@@ -99,9 +94,7 @@ function newButton(btnTxt) {
 
 function appendToLeftPanel(el) {
   const leftPanel = document.querySelector(leftPanelClass);
-
   if (leftPanel != null) {
-    // add element before footer
     leftPanel.insertBefore(el, leftPanel.querySelector('.footer_footer__Mnt6p'));
   } else {
     console.error(`Left panel not loaded yet, cannot append element ${el}`);
@@ -111,21 +104,48 @@ function appendToLeftPanel(el) {
 function addCameraButtonPanel() {
   const camListPanel = document.createElement('div');
   camListPanel.id = 'camera-list';
-  camListPanel.className = 'desktop-nav-panel_desktop-nav-panel__4TPzk'; // taken from first panel on left side
-  camListPanel.style.display = 'flex';
-  camListPanel.style.padding = '4px 2px 24px';
-  camListPanel.style.position = 'relative';
-  camListPanel.style.background = 'linear-gradient(90deg,#88868b,#a7a2a6 10%,#a09b9f 50%,#8f8d93 75%,#625f60 90%)';
-  camListPanel.style.borderRadius = '4px';
-  camListPanel.style.border = '3px outset hsla(300,5%,79%,.75)';
-  camListPanel.style.outline = '2px solid rgba(0,0,0,.5)';
-  camListPanel.style.boxShadow = '-2px 2px 1px rgba(0,0,0,.75),inset 0 0 4px #cbc6cb,4px 4px 0 rgba(0,0,0,.75)';
-  camListPanel.style.filter = 'drop-shadow(-2px 4px 0 rgba(0,0,0,.5))';
+  camListPanel.className = 'desktop-nav-panel_desktop-nav-panel__4TPzk';
+
+  const style = document.createElement('style');
+  style.innerText = `
+    #camera-list {
+      display: block;
+      position: relative;
+      padding: 4px 2px 24px;
+      border-radius: 4px;
+      border: 3px outset hsla(300,5%,79%,.75);
+      outline: 2px solid rgba(0,0,0,.5);
+      box-shadow: -2px 2px 1px rgba(0,0,0,.75), inset 0 0 4px #cbc6cb, 4px 4px 0 rgba(0,0,0,.75);
+      filter: drop-shadow(-2px 4px 0 rgba(0,0,0,.5));
+      background: linear-gradient(
+        90deg, 
+        rgba(100, 98, 103, 1),
+        rgba(130, 125, 130, 1) 10%,
+        rgba(120, 115, 119, 1) 50%,
+        rgba(105, 103, 109, 1) 75%,
+        rgba(70, 67, 68, 1) 90%
+      );
+    }
+
+    #camera-list::before, #camera-list::after {
+      background-image: url(https://cdn.fishtank.live/images/patterns/light-aluminum-comp.png);
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+  `;
+  document.head.appendChild(style);
 
   // header
   const camListHeader = document.createElement('div');
   camListHeader.innerHTML = 'CAMERAS';
-  camListHeader.style.color = '#322e31';
+  camListHeader.className = 'camera-list_header';
+  camListHeader.style.color = '#2c282b';
   camListHeader.style.fontFamily = 'Highway Gothic,sans-serif';
   camListHeader.style.fontWeight = '600';
   camListHeader.style.textTransform = 'uppercase';
@@ -142,22 +162,24 @@ function addCameraButtonPanel() {
   ['top-left', 'top-right', 'bottom-left', 'bottom-right'].forEach((d) => screws.appendChild(newScrew(d)));
   camListPanel.appendChild(screws);
 
+  // camera container
+  const camContainer = document.createElement('div');
+  camContainer.className = 'camera-list_body';
+  camListPanel.appendChild(camContainer);
+
   // camera buttons
   cameras.forEach((c) => {
     const btn = newButton(c);
-    btn.addEventListener('click', () => {
-      switchCamera(c);
-    });
-    camListPanel.appendChild(btn);
+    btn.addEventListener('click', () => switchCamera(c));
+    camContainer.appendChild(btn);
   });
   appendToLeftPanel(camListPanel);
 }
 
 function addFishtankLiveHashtag() {
   const btn = newButton('#fishtanklive');
-  btn.style.marginTop = '2px';
-  btn.style.paddingTop = '15px';
-  btn.style.paddingBottom = '15px';
+  btn.style.minHeight = '33px';
+  btn.style.maxHeight = '33px';
 
   btn.addEventListener('click', () => {
     fishtankSound('click-high-short.mp3');
@@ -166,11 +188,64 @@ function addFishtankLiveHashtag() {
   appendToLeftPanel(btn);
 }
 
-function main() {
-  addCameraButtonPanel();
-  addFishtankLiveHashtag();
+function enableCollapsibility(headerSelector, bodySelectors) {
+  const header = document.querySelector(headerSelector);
+  
+  if (header != null) {
+    header.style.cursor = 'pointer';
+
+    header.addEventListener('click', () => {
+      fishtankSound('click-high-short.mp3');
+      
+      bodySelectors.forEach((b) => {
+        const body = document.querySelector(b);
+        if (body != null) {
+          body.style.display = (body.style.display === 'none') ? 'inherit' : 'none';
+        }
+      });
+    });
+    header.addEventListener('mouseover', () => {
+      header.style.filter = 'brightness(0.8)';
+    });
+    header.addEventListener('mouseout', () => {
+      header.style.filter = 'none';
+    });
+  }
 }
 
-waitForElm(leftPanelClass)
-  .then(() => main())
-  .catch((e) => console.error(`fishtank-s02-qol failed ${e}`));
+function addCollapsibleLeftPanels() {
+  const panels = [
+    {'name': 'inventory', 'header': '.inventory_header__GOmU_', 'body': ['.inventory_body__9_tdq']},
+    {'name': 'cameras', 'header': '.camera-list_header', 'body': ['.camera-list_body']},
+    // tabs
+    {'name': 'missions', 'header': '.missions_header__K2acn', 'body': ['.missions_body__aG1yj']},
+    {'name': 'fish', 'header': '.contestant-leader-board_header__lIEDI', 'body': ['.contestant-leader-board_body__gBqff']},
+    {'name': 'poll', 'header': '.last-poll_header__21XjM', 'body': ['.poll-question_poll-question__7r_dL', '.last-poll_body__HqdtJ']},
+    {'name': 'map', 'header': '.house-map-panel_header__bBdbV', 'body': ['.house-map-panel_body__XeFna']},
+  ];
+  const panelWaitMs = 300;
+
+  // re-apply collapsiblity on tab switch
+  document.querySelectorAll('.secondary-panel_tab__PxWtZ').forEach((tab) => {
+    const tabBtn = tab.children[0];
+    tabBtn.addEventListener('click', () => {
+      setTimeout(() => {
+        const tab = panels.find((p) => p.name === tabBtn.textContent);
+        enableCollapsibility(tab.header, tab.body);
+      }, panelWaitMs);
+    });
+  });
+
+  setTimeout(() => {
+    panels.forEach((panel) => enableCollapsibility(panel.header, panel.body));
+  }, panelWaitMs);
+}
+
+(() => {
+  // left panel tweaks
+  waitForElm(leftPanelClass).then(() => {
+    addCameraButtonPanel();
+    addFishtankLiveHashtag();
+    addCollapsibleLeftPanels();
+  });
+})();
