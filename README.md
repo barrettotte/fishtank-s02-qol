@@ -2,6 +2,8 @@
 
 Adds some quality of life features for [Fishtank season 2](https://www.fishtank.live/) site that I wanted.
 
+More awesome features can be found at https://github.com/maejok-xx/maejok-tools
+
 ## Features
 
 - List of all cameras on left panel
