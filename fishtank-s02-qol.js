@@ -197,7 +197,7 @@ function addFishtankLiveHashtag() {
 
   btn.addEventListener('click', () => {
     fishtankSound('click-high-short.mp3');
-    window.open('https://twitter.com/search?q=%23fishtanklive&src=typed_query&f=live', '_blank');
+    window.open('https://twitter.com/search?q=lang%3Aen%20%23fishtanklive&src=typed_query&f=live', '_blank');
   });
   appendToLeftPanel(btn);
 }
