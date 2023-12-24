@@ -22,7 +22,6 @@ function waitForElm(selector) {
     if (document.querySelector(selector)) {
       return resolve(document.querySelector(selector));
     }
-
     const observer = new MutationObserver(mutations => {
       if (document.querySelector(selector)) {
         observer.disconnect();
@@ -61,16 +60,28 @@ function fishtankSound(sound) {
   a.play();
 }
 
-function switchCamera(camera) {
+function pressCloseButton() {
   const closeBtn = document.querySelector('.close-button_md__9Ad2o');
   if (closeBtn != null) {
-    closeBtn.click(); // close out of camera if currently watching
+    closeBtn.click();
   }
+}
 
-  setTimeout(() => {
-    const camID = camera.toLowerCase().replace(/ /g, '-');
-    waitForElm(`#${camID}`).then((elm) => elm.click());
-  }, 100);
+function switchCamera(camera) {
+  var waitMs = 125;
+
+  if (document.querySelector('#live-stream-player') != null) {
+    pressCloseButton(); // close active stream
+  } 
+  else if (document.querySelector('.live-streams_grid-4__uVQ7Z') === null){
+    // close map, contestants, etc.
+    // note: I think we can only go two levels deep site wide
+    pressCloseButton();
+    setTimeout(() => pressCloseButton(), waitMs);
+    waitMs *= 2.5;
+  }
+  const camID = camera.toLowerCase().replace(/ /g, '-');
+  setTimeout(() => waitForElm(`#${camID}`).then((elm) => elm.click()), waitMs);
 }
 
 function newButton(btnTxt) {
@@ -138,6 +149,18 @@ function addCameraButtonPanel() {
       mix-blend-mode: overlay;
       pointer-events: none;
     }
+
+    .camera-list_header {
+      color: #2c282b;
+      font-family: Highway Gothic,sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-shadow: 0 0 2px rgba(225,239,252,.75);
+      padding-bottom: 5px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
   `;
   document.head.appendChild(style);
 
@@ -145,21 +168,12 @@ function addCameraButtonPanel() {
   const camListHeader = document.createElement('div');
   camListHeader.innerHTML = 'CAMERAS';
   camListHeader.className = 'camera-list_header';
-  camListHeader.style.color = '#2c282b';
-  camListHeader.style.fontFamily = 'Highway Gothic,sans-serif';
-  camListHeader.style.fontWeight = '600';
-  camListHeader.style.textTransform = 'uppercase';
-  camListHeader.style.textShadow = '0 0 2px rgba(225,239,252,.75)';
-  camListHeader.style.paddingBottom = '5px';
-  camListHeader.style.width = '100%';
-  camListHeader.style.display = 'flex';
-  camListHeader.style.justifyContent = 'center';
   camListPanel.appendChild(camListHeader);
 
   // corner screws
   const screws = document.createElement('div');
   screws.className = 'screws_screws__letgM screws_sm__YY7jC';
-  ['top-left', 'top-right', 'bottom-left', 'bottom-right'].forEach((d) => screws.appendChild(newScrew(d)));
+  ['top-left', 'top-right', 'bottom-left', 'bottom-right'].forEach((x) => screws.appendChild(newScrew(x)));
   camListPanel.appendChild(screws);
 
   // camera container
@@ -242,9 +256,7 @@ function addCollapsibleLeftPanels() {
     });
   });
 
-  setTimeout(() => {
-    panels.forEach((panel) => enableCollapsibility(panel.header, panel.body));
-  }, panelWaitMs);
+  setTimeout(() => panels.forEach((panel) => enableCollapsibility(panel.header, panel.body)), panelWaitMs);
 }
 
 (() => {
