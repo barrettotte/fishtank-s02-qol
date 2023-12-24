@@ -68,6 +68,11 @@ function pressCloseButton() {
 }
 
 function switchCamera(camera) {
+  if (document.querySelector('.checkbox_checkbox__71r2L.checkbox_checked__ibaIs')) {
+    fishtankSound('click-high-short.mp3');
+    return; // cannot switch, auto enabled
+  }
+
   var waitMs = 125;
 
   if (document.querySelector('#live-stream-player') != null) {
