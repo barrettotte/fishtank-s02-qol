@@ -68,11 +68,6 @@ function pressCloseButton() {
 }
 
 function switchCamera(camera) {
-  if (document.querySelector('.checkbox_checkbox__71r2L.checkbox_checked__ibaIs')) {
-    fishtankSound('click-high-short.mp3');
-    return; // cannot switch, auto enabled
-  }
-
   var waitMs = 125;
 
   if (document.querySelector('#live-stream-player') != null) {
@@ -242,6 +237,7 @@ function addCollapsibleLeftPanels() {
   const panels = [
     {'name': 'inventory', 'header': '.inventory_header__GOmU_', 'body': ['.inventory_body__9_tdq']},
     {'name': 'cameras', 'header': '.camera-list_header', 'body': ['.camera-list_body']},
+    {'name': 'stats', 'header': '.stats_header__dSMS8', 'body': ['.stats_body__q3DS7']},
     // tabs
     {'name': 'missions', 'header': '.missions_header__K2acn', 'body': ['.missions_body__aG1yj']},
     {'name': 'fish', 'header': '.contestant-leader-board_header__lIEDI', 'body': ['.contestant-leader-board_body__gBqff']},
