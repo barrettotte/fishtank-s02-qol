@@ -235,28 +235,31 @@ function enableCollapsibility(headerSelector, bodySelectors) {
 
 function addCollapsibleLeftPanels() {
   const panels = [
-    {'name': 'inventory', 'header': '.inventory_header__GOmU_', 'body': ['.inventory_body__9_tdq']},
-    {'name': 'cameras', 'header': '.camera-list_header', 'body': ['.camera-list_body']},
-    {'name': 'stats', 'header': '.stats_header__dSMS8', 'body': ['.stats_body__q3DS7']},
+    {'header': '.inventory_header__GOmU_', 'body': ['.inventory_body__9_tdq']},
+    {'header': '.camera-list_header', 'body': ['.camera-list_body']},
+    {'header': '.stats_header__dSMS8', 'body': ['.stats_body__q3DS7']},
     // tabs
-    {'name': 'missions', 'header': '.missions_header__K2acn', 'body': ['.missions_body__aG1yj']},
-    {'name': 'fish', 'header': '.contestant-leader-board_header__lIEDI', 'body': ['.contestant-leader-board_body__gBqff']},
-    {'name': 'poll', 'header': '.last-poll_header__21XjM', 'body': ['.poll-question_poll-question__7r_dL', '.last-poll_body__HqdtJ']},
-    {'name': 'map', 'header': '.house-map-panel_header__bBdbV', 'body': ['.house-map-panel_body__XeFna']},
+    {'header': '.house-map-panel_header__bBdbV', 'body': ['.house-map-panel_body__XeFna']},
+    {'header': '.missions_header__K2acn', 'body': ['.missions_body__aG1yj']},
+    {'header': '.contestant-leader-board_header__lIEDI', 'body': ['.contestant-leader-board_body__gBqff']},
+    {'header': '.last-poll_header__21XjM', 'body': ['.poll-question_poll-question__7r_dL', '.last-poll_body__HqdtJ']},
   ];
   const panelWaitMs = 300;
 
   // re-apply collapsiblity on tab switch
-  document.querySelectorAll('.secondary-panel_tab__PxWtZ').forEach((tab) => {
-    const tabBtn = tab.children[0];
-    tabBtn.addEventListener('click', () => {
-      setTimeout(() => {
-        const tab = panels.find((p) => p.name === tabBtn.textContent);
-        enableCollapsibility(tab.header, tab.body);
-      }, panelWaitMs);
-    });
-  });
+  const tabPanel = document.querySelector("div[class^='secondary-panel_tabs__'");
+  if (tabPanel != null) {
+    for (const [i, tab] of [...tabPanel.children[0].children].entries()) {
+      tab.children[0].addEventListener('click', () => {
+        setTimeout(() => {
+          const t = panels[3 + i]; // offset to tabs
+          enableCollapsibility(t.header, t.body);
+        }, panelWaitMs);
+      });
+    }
+  }
 
+  // enable collapsibility on each panel, tabs will get collapsibility re-enabled on every tab change
   setTimeout(() => panels.forEach((panel) => enableCollapsibility(panel.header, panel.body)), panelWaitMs);
 }
 
