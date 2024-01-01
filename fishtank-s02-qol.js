@@ -190,14 +190,15 @@ function addCameraButtonPanel() {
   appendToLeftPanel(camListPanel);
 }
 
-function addFishtankLiveHashtag() {
-  const btn = newButton('#fishtanklive');
+function addLinkButton(text, url, marginTop) {
+  const btn = newButton(text);
   btn.style.minHeight = '33px';
   btn.style.maxHeight = '33px';
+  btn.style.marginTop = marginTop;
 
   btn.addEventListener('click', () => {
     fishtankSound('click-high-short.mp3');
-    window.open('https://twitter.com/search?q=lang%3Aen%20%23fishtanklive&src=typed_query&f=live', '_blank');
+    window.open(url, '_blank');
   });
   appendToLeftPanel(btn);
 }
@@ -267,7 +268,8 @@ function addCollapsibleLeftPanels() {
   // left panel tweaks
   waitForElm(leftPanelClass).then(() => {
     addCameraButtonPanel();
-    addFishtankLiveHashtag();
+    addLinkButton('#FISHTANKLIVE', 'https://twitter.com/search?q=lang%3Aen%20(%23fishtanklive%20OR%20%23fishtankdotlive)%20-%23aquarium%20-%23animal%20-%23bitcoin%20-%23college%20-%23cute%20-%23follow%20-%23fun%20-%23funny%20-%23gamedev%20-%23gamergirl%20-%23happy%20-%23love%20-%23meme%20-%23MUFC%20-%23onlineclasses%20-%23reddit%20-%23trumpsmellsbad%20-%23viralvideo%20-%23viral%20-%23youtube%20-boxingday%20-hamas%20-iptv%20-israel%20-lufc%20-palestine%20-sundayvibes%20&src=typed_query&f=live', '0px');
+    addLinkButton('/tv/', 'https://boards.4chan.org/tv/catalog', '-15px');
     addCollapsibleLeftPanels();
   });
 })();

@@ -8,6 +8,7 @@ More awesome features can be found at https://github.com/maejok-xx/maejok-tools
 
 - List of all cameras on left side
 - Button on left side to open `#fishtanklive` on X in new tab
+- Button on left side to open `/tv/` in new tab
 - Collapsible panels on left side by clicking title
 
 ## Screenshots
