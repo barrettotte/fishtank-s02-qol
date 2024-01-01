@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-const leftPanelClass = '.secondary-panel_secondary-panel__vUc65';
+const leftPanelSelector = "div[class^='secondary-panel_secondary-panel__']";
 
 const cameras = [
   'ATTIC', 'BAR', 'BEDROOM 1', 'BEDROOM 2', 'BEDROOM 3', 'DOG HOUSE', 'DOWNSTAIRS BATHROOM', 'HALLWAY DOWNSTAIRS', 
@@ -68,6 +68,12 @@ function pressCloseButton() {
 }
 
 function switchCamera(camera) {
+  // check if auto-switch enabled by checking styling, the actual input value is always set to 'on'
+  if (document.querySelector('.checkbox_checked__ibaIs') != null) {
+    fishtankSound('click-high-short.mp3');
+    return; // cannot switch, auto enabled
+  }
+
   var waitMs = 125;
 
   if (document.querySelector('#live-stream-player') != null) {
@@ -104,7 +110,7 @@ function newButton(btnTxt) {
 }
 
 function appendToLeftPanel(el) {
-  const leftPanel = document.querySelector(leftPanelClass);
+  const leftPanel = document.querySelector(leftPanelSelector);
   if (leftPanel != null) {
     leftPanel.insertBefore(el, leftPanel.querySelector('.footer_footer__Mnt6p'));
   } else {
@@ -248,7 +254,7 @@ function addCollapsibleLeftPanels() {
   const panelWaitMs = 300;
 
   // re-apply collapsiblity on tab switch
-  const tabPanel = document.querySelector("div[class^='secondary-panel_tabs__'");
+  const tabPanel = document.querySelector("div[class^='secondary-panel_tabs__']");
   if (tabPanel != null) {
     for (const [i, tab] of [...tabPanel.children[0].children].entries()) {
       tab.children[0].addEventListener('click', () => {
@@ -266,7 +272,7 @@ function addCollapsibleLeftPanels() {
 
 (() => {
   // left panel tweaks
-  waitForElm(leftPanelClass).then(() => {
+  waitForElm(leftPanelSelector).then(() => {
     addCameraButtonPanel();
     addLinkButton('#FISHTANKLIVE', 'https://twitter.com/search?q=lang%3Aen%20(%23fishtanklive%20OR%20%23fishtankdotlive)%20-%23aquarium%20-%23animal%20-%23bitcoin%20-%23college%20-%23cute%20-%23follow%20-%23fun%20-%23funny%20-%23gamedev%20-%23gamergirl%20-%23happy%20-%23love%20-%23meme%20-%23MUFC%20-%23onlineclasses%20-%23reddit%20-%23trumpsmellsbad%20-%23viralvideo%20-%23viral%20-%23youtube%20-boxingday%20-hamas%20-iptv%20-israel%20-lufc%20-palestine%20-sundayvibes%20&src=typed_query&f=live', '0px');
     addLinkButton('/tv/', 'https://boards.4chan.org/tv/catalog', '-15px');
