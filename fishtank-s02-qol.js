@@ -69,10 +69,13 @@ function pressCloseButton() {
 
 function switchCamera(camera) {
   // check if auto-switch enabled by checking styling, the actual input value is always set to 'on'
-  if (document.querySelector('.checkbox_checked__ibaIs') != null) {
-    fishtankSound('click-high-short.mp3');
-    return; // cannot switch, auto enabled
-  }
+  //
+  // TODO: this still isn't working quite right...sometimes it gets frozen when untoggling the auto-switch...
+  //
+  // if (document.querySelector('.checkbox_checked__ibaIs') != null) {
+  //   fishtankSound('click-high-short.mp3');
+  //   return; // cannot switch, auto enabled
+  // }
 
   var waitMs = 125;
 
