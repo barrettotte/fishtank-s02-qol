@@ -14,7 +14,7 @@ More awesome features can be found at https://github.com/maejok-xx/maejok-tools
 
 ## Screenshots
 
-<img src="images/cam-list.png" alt="camera list" width="125px" height="350px"/>
+<img src="images/cam-list.png" alt="camera list" width="250px" height="1000px"/>
 
 ## Install
 
