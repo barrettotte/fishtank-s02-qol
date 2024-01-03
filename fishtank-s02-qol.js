@@ -2,7 +2,7 @@
 // @name         fishtank-s02 QoL
 // @description  Adds some quality of life features for Fishtank season 2 site
 // @namespace    http://tampermonkey.net/
-// @version      2024-01-01
+// @version      2024-01-03
 // @author       barrettotte
 // @match        *://*.fishtank.live/*
 // @run-at       document-idle
