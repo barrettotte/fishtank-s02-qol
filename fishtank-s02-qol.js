@@ -2,7 +2,7 @@
 // @name         fishtank-s02 QoL
 // @description  Adds some quality of life features for Fishtank season 2 site
 // @namespace    http://tampermonkey.net/
-// @version      2024-01-03
+// @version      2024-01-13
 // @author       barrettotte
 // @match        *://*.fishtank.live/*
 // @run-at       document-idle
@@ -12,8 +12,9 @@
 const leftPanelSelector = "div[class^='secondary-panel_secondary-panel__']";
 
 const cameras = [
-  'ATTIC', 'BAR', 'BEDROOM 1', 'BEDROOM 2', 'BEDROOM 3', 'DOG HOUSE', 'DOWNSTAIRS BATHROOM', 'HALLWAY DOWNSTAIRS', 
-  'HALLWAY UPSTAIRS', 'KITCHEN', 'LIVING ROOM', 'LOUNGE', 'MASTER BATHROOM', 'THE BUNK', 'UPSTAIRS BATHROOM',
+  'ATTIC', 'BAR', 'BEDROOM 1', 'BEDROOM 2', 'BEDROOM 3', 'CONFESSIONAL', 'DOG HOUSE', 
+  'DOWNSTAIRS BATHROOM', 'HALLWAY DOWNSTAIRS', 'HALLWAY UPSTAIRS', 'KITCHEN', 
+  'LIVING ROOM', 'LOUNGE', 'MASTER BATHROOM', 'THE BUNK', 'UPSTAIRS BATHROOM',
 ];
 
 // ripped from https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
