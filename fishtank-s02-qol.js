@@ -2,7 +2,7 @@
 // @name         fishtank-s02 QoL
 // @description  Adds some quality of life features for Fishtank season 2 site
 // @namespace    http://tampermonkey.net/
-// @version      2024-01-13
+// @version      2024-01-18
 // @author       barrettotte
 // @match        *://*.fishtank.live/*
 // @run-at       document-idle
@@ -116,7 +116,7 @@ function newButton(btnTxt) {
 function appendToLeftPanel(el) {
   const leftPanel = document.querySelector(leftPanelSelector);
   if (leftPanel != null) {
-    leftPanel.insertBefore(el, leftPanel.querySelector('.footer_footer__Mnt6p'));
+    leftPanel.insertBefore(el, leftPanel.querySelector("button[class^='ad_ad__']"));
   } else {
     console.error(`Left panel not loaded yet, cannot append element ${el}`);
   }

@@ -7,10 +7,11 @@ More awesome features can be found at https://github.com/maejok-xx/maejok-tools
 ## Features
 
 - List of all cameras on left side
-- Button on left side to open `#fishtanklive` on X in new tab
-- Button on left side to open `/tv/` in new tab
-- Button on left side to open [fishtank.guru](https://fishtank.guru/), a site with all crafting recipes
 - Collapsible panels on left side by clicking title
+- Fishtank-related quick link buttons on left side
+  - Open `#fishtanklive` on X in new tab
+  - Open `/tv/` in new tab
+  - Open [fishtank.guru](https://fishtank.guru/), a site with all crafting recipes
 
 ## Screenshots
 
